@@ -43,7 +43,10 @@ error), and the page is JS-heavy. Use this fallback ladder:
    Ad Library URL (`?id=`), then fetch a public mirror of the entry, e.g.
    `https://trycrush.ai/ad-library/ad/<id>` with webfetch. Mirrors expose the
    full ad text, Meta Ad Library ID, platforms, run dates, relaunch count, EU
-   reach, **and the destination domain + CTA copy**. Other mirrors
+   reach, **and the exact destination href behind the CTA** — on trycrush that
+   is the "Where the ad sends people" anchor (e.g.
+   `<a href="http://bare-ritual.com/">`): capture the **full URL verbatim**
+   (scheme + host + path + query), not just the domain. Other mirrors
    (foreplay, adscan-type scrapers) work the same way. Note in the report that
    details came from a mirror.
 2. **Browser for the official source.** If the user needs the canonical
@@ -67,7 +70,9 @@ curl.exe -sSL --globoff --ssl-no-revoke -A "<browser UA>" --max-time 30 `
 ```
 
 Record the **full redirect chain** (per-hop `Location:` headers via `-v` if
-needed). Flag:
+needed). The report must always show **both** the raw CTA href captured in
+Phase 1 and the resolved final URL after redirects (a naked `http://domain/`
+CTA typically 301s to `https://domain/` — show that hop). Flag:
 
 - Redirectors / trackers: `go.`, `bit.`, `t.`, `redir.` cloaking domains,
   `?ref=`, `subid=`, MGID/PopAds-style domains.
@@ -138,6 +143,8 @@ personal data.
 - Advertiser · date · status · CTA
 - Primary text / headline / description (verbatim, truncate if huge)
 - Media: <type + URL>
+- Exact destination URL (CTA href, verbatim): <raw link from the ad>
+  → resolved: <url_effective> (<n> redirect(s))
 - Longevity: <days running, relaunches — proven-winner signal>
 
 ## 🔗 Redirect chain

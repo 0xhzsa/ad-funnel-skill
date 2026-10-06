@@ -19,7 +19,8 @@ ad creative  →  destination URL  →  landing page  →  cart  →  checkout  
 
 1. **Phase 1 — Get the ad.** Meta Ad Library blocks plain HTTP clients
    (curl → 403). The skill falls back to public Ad Library mirrors for the
-   full ad text + destination, then uses a real browser only when needed.
+   full ad text **plus the exact destination URL behind the CTA**, then uses
+   a real browser only when needed.
 2. **Phase 2 — Resolve the destination.** Full redirect chain via
    `curl -w url_effective`, with redirector/cloaking detection.
 3. **Phase 3 — Scrape the landing page.** Store fingerprint (Shopify/Woo/
@@ -82,12 +83,15 @@ destination / landing page URL, or a social post containing the ad.
 
 > **🎯 Ad** — Bare Ritual · Meta Ad Library ID `1488820192751693` · ran 205
 > days with 8 relaunches · Facebook, Instagram, Audience Network, Messenger,
-> Threads · CTA "Shop now" → `bare-ritual.com`
+> Threads · CTA "Shop now"
+> *Exact destination URL (CTA href):* `http://bare-ritual.com/` *→ resolved:*
+> `https://bare-ritual.com/` *(1 redirect, 301)*
 > *"Most men are paying twice for skincare that doesn't work… buy one jar, get
 > a second jar completely free… 90-day money-back guarantee. 470,000 jars
 > sold."*
 >
-> **🔗 Redirect chain** — 0 redirects → `https://bare-ritual.com/`
+> **🔗 Redirect chain** — `http://bare-ritual.com/` → **301** →
+> `https://bare-ritual.com/` (200)
 >
 > **🌍 Landing** — Shopify · "Beef Tallow Honey Balm" · PayPal + Shop Pay ·
 > countdown, reviews, 90-day guarantee · tracking: Klaviyo ×10,
