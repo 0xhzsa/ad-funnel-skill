@@ -1,12 +1,12 @@
----
+﻿﻿﻿ï»¿---
 name: ad-funnel
 description: Scrapes the complete funnel behind an ad - the ad creative, its destination URL, the landing page, checkout flow, upsells, payment methods and tracking stack. Use when the user pastes a Meta Ad Library link, an ad post, or a landing page URL and wants to spy on / analyze / scrape the funnel, the offer, the redirect chain, order bumps, upsells, COD vs prepaid, or competitor landing pages. Triggers: "ad funnel", "funnel scraper", "scrape this ad", "what's behind this ad", "landing page funnel", "competitor funnel", "ad spy", "Meta Ad Library".
 ---
 
 # Ad Funnel Scraper
 
-Scrape the **whole path an ad takes**: ad creative → destination URL → landing
-page → cart → checkout → upsells/thank-you page → tracking stack.
+Scrape the **whole path an ad takes**: ad creative Ã¢â€ â€™ destination URL Ã¢â€ â€™ landing
+page Ã¢â€ â€™ cart Ã¢â€ â€™ checkout Ã¢â€ â€™ upsells/thank-you page Ã¢â€ â€™ tracking stack.
 
 **Output rule: chat only.** Deliver the final report as one Markdown message in
 the conversation. Do NOT create report files, `.md` deliverables, or archives.
@@ -15,10 +15,10 @@ when strictly necessary and must be deleted before finishing.
 
 ## Inputs the skill accepts
 
-1. **Meta Ad Library URL** — `facebook.com/ads/library/?id=<archive_id>` or a
+1. **Meta Ad Library URL** Ã¢â‚¬â€ `facebook.com/ads/library/?id=<archive_id>` or a
    search URL (`&q=` brand keyword).
 2. **Any ad destination / landing page URL** (direct mode).
-3. **X/Twitter or other social post containing the ad** — fetch the post first
+3. **X/Twitter or other social post containing the ad** Ã¢â‚¬â€ fetch the post first
    (webfetch works on x.com status URLs) to pull the destination link out of it.
 
 ## Phase 0 - Environment checks (Windows / PowerShell 5.1)
@@ -30,20 +30,20 @@ when strictly necessary and must be deleted before finishing.
   `--max-time 30`.
 - PS 5.1 mangles quotes in native args: write any JSON/body to a temp file and
   pass `--data-binary "@<file>"`. Delete temp files when done.
-- Fetch order of preference: `webfetch` → `curl.exe` (raw HTML) → browser
+- Fetch order of preference: `webfetch` Ã¢â€ â€™ `curl.exe` (raw HTML) Ã¢â€ â€™ browser
   (below). Only open a browser when the page is JS-rendered and the static
   fetch came back empty or blocked.
 
 ## Phase 1 - Get the ad (Meta Ad Library)
 
-Meta's Ad Library blocks plain HTTP clients (curl → 403, webfetch → transport
+Meta's Ad Library blocks plain HTTP clients (curl Ã¢â€ â€™ 403, webfetch Ã¢â€ â€™ transport
 error), and the page is JS-heavy. Use this fallback ladder:
 
 1. **Mirror first (fastest, no browser).** Read the numeric ad ID from the
    Ad Library URL (`?id=`), then fetch a public mirror of the entry, e.g.
    `https://trycrush.ai/ad-library/ad/<id>` with webfetch. Mirrors expose the
    full ad text, Meta Ad Library ID, platforms, run dates, relaunch count, EU
-   reach, **and the exact destination href behind the CTA** — on trycrush that
+   reach, **and the exact destination href behind the CTA** Ã¢â‚¬â€ on trycrush that
    is the "Where the ad sends people" anchor (e.g.
    `<a href="http://bare-ritual.com/">`): capture the **full URL verbatim**
    (scheme + host + path + query), not just the domain. Other mirrors
@@ -55,7 +55,7 @@ error), and the page is JS-heavy. Use this fallback ladder:
    (CDP). From the ad detail view extract: page name, start date, status,
    platforms; primary text, headline, description, CTA label; media (for video,
    grab the `.mp4` src from the DOM); and the real link behind the CTA (open
-   "See ad details" — EU transparency data shows there too).
+   "See ad details" Ã¢â‚¬â€ EU transparency data shows there too).
 3. **Direct mode** (input was already a landing/post URL): just extract the
    destination URL from the post or copy.
 
@@ -72,16 +72,16 @@ curl.exe -sSL --globoff --ssl-no-revoke -A "<browser UA>" --max-time 30 `
 Record the **full redirect chain** (per-hop `Location:` headers via `-v` if
 needed). The report must always show **both** the raw CTA href captured in
 Phase 1 and the resolved final URL after redirects (a naked `http://domain/`
-CTA typically 301s to `https://domain/` — show that hop). Flag:
+CTA typically 301s to `https://domain/` Ã¢â‚¬â€ show that hop). Flag:
 
 - Redirectors / trackers: `go.`, `bit.`, `t.`, `redir.` cloaking domains,
   `?ref=`, `subid=`, MGID/PopAds-style domains.
-- **Domain change mid-chain** (ad domain → completely different TLD): classic
-  dropshipping pattern — note both domains.
+- **Domain change mid-chain** (ad domain Ã¢â€ â€™ completely different TLD): classic
+  dropshipping pattern Ã¢â‚¬â€ note both domains.
 
 ## Phase 3 - Scrape the landing page
 
-Static fetch first (`curl.exe` → scratch HTML in temp → parse, or `webfetch`).
+Static fetch first (`curl.exe` Ã¢â€ â€™ scratch HTML in temp Ã¢â€ â€™ parse, or `webfetch`).
 If the body is an empty SPA shell or a challenge page, render with the browser
 instead.
 
@@ -95,7 +95,7 @@ Extract and hold in memory for the report:
 3. **Page structure**: H1/H2s, section order, reviews/testimonials (names +
    counts), urgency devices (countdown, stock, "X people viewing"), trust
    badges, FAQ.
-4. **Payment posture**: COD vs prepaid hints — forms asking only phone/address
+4. **Payment posture**: COD vs prepaid hints Ã¢â‚¬â€ forms asking only phone/address
    (COD), payment logos (Visa/PayPal/Western Union/Buck/"Cash on delivery"),
    currency. Check `mentions`/`conditions` links for hidden recurring clauses
    (past funnels in this workspace used a masked "14-day recurring" line).
@@ -110,15 +110,15 @@ Extract and hold in memory for the report:
 Chat-only means: **probe, don't purchase.** Never submit a real payment or
 personal data.
 
-1. **Product → cart** (read-only Shopify endpoints):
-   - `GET /products/<handle>.js` → title, `price` (minor units), variants,
+1. **Product Ã¢â€ â€™ cart** (read-only Shopify endpoints):
+   - `GET /products/<handle>.js` Ã¢â€ â€™ title, `price` (minor units), variants,
      availability. Handle comes from `/products/<handle>` links in the HTML.
-   - `GET /products.json?limit=N` → catalog overview.
-   - `GET /cart.js` → currency, item count (session-only cart).
+   - `GET /products.json?limit=N` Ã¢â€ â€™ catalog overview.
+   - `GET /cart.js` Ã¢â€ â€™ currency, item count (session-only cart).
    - Do **not** POST add-to-cart unless the user explicitly asks.
-2. **Cart → checkout**: `GET /cart`, `/checkout`, `/cart/checkout`. On Shopify,
-   `/checkout` answers **302 → `shop.app/checkout/...` universal checkout**
-   (follow with `-o NUL -w`, don't dump the tokenized URL into the report —
+2. **Cart Ã¢â€ â€™ checkout**: `GET /cart`, `/checkout`, `/cart/checkout`. On Shopify,
+   `/checkout` answers **302 Ã¢â€ â€™ `shop.app/checkout/...` universal checkout**
+   (follow with `-o NUL -w`, don't dump the tokenized URL into the report Ã¢â‚¬â€
    record only "Shopify checkout hosted on shop.app, Shop Pay enabled").
    Note: this GET mints a session checkout token; that is a harmless
    session-side effect, no order is created.
@@ -126,7 +126,7 @@ personal data.
    offered, COD availability, order-bump checkboxes in source, upsell app
    scripts (`reconvert`, `zipify`, `oneclick`, `upsell`), pixel events
    (`InitiateCheckout`, `AddPaymentInfo`).
-4. **Post-purchase pages** — existence probe only:
+4. **Post-purchase pages** Ã¢â‚¬â€ existence probe only:
    `GET /thank-you`, `/thank_you`, `/checkout/thank_you`, `/pages/thanks`,
    `/upsell`, `/offer`, `/otc`. 200 vs 404 tells you whether a
    thank-you/upsell step exists; document it as "detected/absent (404)".
@@ -138,34 +138,34 @@ personal data.
 ## Phase 5 - Report (single Markdown message, in chat)
 
 ```markdown
-## 🎯 Ad
+## Ã°Å¸Å½Â¯ Ad
 - Source: <platform + Ad Library link / post>
-- Advertiser · date · status · CTA
+- Advertiser Ã‚Â· date Ã‚Â· status Ã‚Â· CTA
 - Primary text / headline / description (verbatim, truncate if huge)
 - Media: <type + URL>
 - Exact destination URL (CTA href, verbatim): <raw link from the ad>
-  → resolved: <url_effective> (<n> redirect(s))
-- Longevity: <days running, relaunches — proven-winner signal>
+  Ã¢â€ â€™ resolved: <url_effective> (<n> redirect(s))
+- Longevity: <days running, relaunches Ã¢â‚¬â€ proven-winner signal>
 
-## 🔗 Redirect chain
-hop 1 → hop 2 → … → final URL (`url_effective` from curl)
-- Redirectors/trackers detected: …
-- Domain change mid-chain: ⚠️ yes/no
+## Ã°Å¸â€â€” Redirect chain
+hop 1 Ã¢â€ â€™ hop 2 Ã¢â€ â€™ Ã¢â‚¬Â¦ Ã¢â€ â€™ final URL (`url_effective` from curl)
+- Redirectors/trackers detected: Ã¢â‚¬Â¦
+- Domain change mid-chain: Ã¢Å¡Â Ã¯Â¸Â yes/no
 
-## 🌍 Landing page
+## Ã°Å¸Å’Â Landing page
 - Offer: product, list price / sale price, coupon, shipping, guarantees
 - Structure: H1 + section order
 - Proof/urgency: reviews (names), counters, badges
-- Payments: COD ✅/❌ · methods shown · currency
+- Payments: COD Ã¢Å“â€¦/Ã¢ÂÅ’ Ã‚Â· methods shown Ã‚Â· currency
 - Tracking: Meta Pixel (id or "absent"), TikTok, GA4, gtag-ads, email/push
 - Stack: <eCom platform + detected funnel apps>
 
-## 💰 Funnel
-1. Landing → 2. Cart → 3. Checkout → 4. Thank-you/Upsell (exists?)
-- Order bumps / upsells detected: …
-- 404 steps (absent stages): …
+## Ã°Å¸â€™Â° Funnel
+1. Landing Ã¢â€ â€™ 2. Cart Ã¢â€ â€™ 3. Checkout Ã¢â€ â€™ 4. Thank-you/Upsell (exists?)
+- Order bumps / upsells detected: Ã¢â‚¬Â¦
+- 404 steps (absent stages): Ã¢â‚¬Â¦
 
-## 🧐 Notes / red flags
+## Ã°Å¸Â§Â Notes / red flags
 Cloaking, hidden clauses (recurring, "14 days"), domain shuffling, price
 mismatch between ad and landing, missing legal pages, etc.
 ```
@@ -173,9 +173,9 @@ mismatch between ad and landing, missing legal pages, etc.
 Rules:
 
 - Quote verbatim, don't invent. If something couldn't be retrieved (403, login
-  wall, JS wall), say so explicitly under a **⚠️ Not retrieved** line instead
-  of guessing — and use the Phase 1 fallback ladder before giving up.
-- Keep it dense — this is an analysis chat message, not an essay.
+  wall, JS wall), say so explicitly under a **Ã¢Å¡Â Ã¯Â¸Â Not retrieved** line instead
+  of guessing Ã¢â‚¬â€ and use the Phase 1 fallback ladder before giving up.
+- Keep it dense Ã¢â‚¬â€ this is an analysis chat message, not an essay.
 - One report per ad. If the user gives several ads, run the phases per ad and
   send one report each.
 - Delete any scratch files created during the run before finishing.
